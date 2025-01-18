@@ -1,0 +1,15 @@
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+.DS_Store
+Thumbs.db
+/bower_components
+/jspm_packages
+/dist
+/build
+/coverage
+*.tmp
+*.swp
