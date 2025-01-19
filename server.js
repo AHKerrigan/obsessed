@@ -1,12 +1,12 @@
-const { newweight } = require('./newweight')
-require('dotenv').config
+const newweight = require('./newweight')
+require('dotenv').config()
 
 const express = require('express')
 const { Client } = require('@notionhq/client');
 
 
 const app = express();
-app.use(espress.json())
+app.use(express.json())
 
 
 const PORT = 3000
@@ -25,4 +25,4 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 })
 
-app.use('/neweight')
+app.use('/newweight', newweight)
