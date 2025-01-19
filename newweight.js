@@ -49,8 +49,6 @@ const getTrend = async (measurements) => {
     const x = measurements.map(d => (new Date(d.date).getTime() - startDate) / (1000 * 60 * 60 * 24));
     const y = measurements.map(d => d.weight);
 
-    console.log(x, y)
-
     const regression = ss.linearRegression(x.map((_, i) => [x[i], y[i]]));
 
     return regression.m;
