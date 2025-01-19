@@ -30,7 +30,8 @@ const getNWeights = async (nDays) => {
                 property: "Date of Measurement",
                 direction: "descending"
             }
-        ]
+        ],
+        page_size: nDays
     });
     return response
 }
@@ -44,9 +45,11 @@ const getAverages = async (measurements) => {
 }
 
 const getTrend = async (measurements) => {
-    const startDate = new Date(measurements[0].date).getTime();
+    const startDate = new Date(measurements[measurements].date).getTime();
     const x = measurements.map(d => (new Date(d.date).getTime() - startDate) / (1000 * 60 * 60 * 24));
     const y = measurements.map(d => d.weight);
+
+    console.log(x, y)
 
     const regression = ss.linearRegression(x.map((_, i) => [x[i], y[i]]));
 
@@ -54,20 +57,20 @@ const getTrend = async (measurements) => {
 }
 
 const simplifyMeasurements = async (response) => {
-    const measurements = response.results.map((result) => {
-        weight: result.properties.Weight.number;
-        calories: result.properties.Calories.number;
-        date: result.properties['Date of Measurements'].date.start
-    });
+    const measurements = response.results.map((result) => ({
+        weight: result.properties.Weight.number,
+        calories: result.properties.Calories.number,
+        date: result.properties['Date of Measurement'].date.start
+    }));
     return measurements;
 }
 
 router.post('/', async (req, res) => {
 
-    const weights = await getAllWeight();
     response = await getNWeights(30);
     measurements = await simplifyMeasurements(response);
-    console.log(measurements);
+    trend = await getTrend(measurements)
+    console.log(trend)
 });
 
 router.get('/', async (req, res) => {
